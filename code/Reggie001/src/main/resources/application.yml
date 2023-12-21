@@ -4,10 +4,11 @@ spring:
   application:
     name: reggie_take_out_A
   datasource:
-    username: root
-    password: root226
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_reggie
+    druid:
+      username: root
+      password: root226
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/db_reggie
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
