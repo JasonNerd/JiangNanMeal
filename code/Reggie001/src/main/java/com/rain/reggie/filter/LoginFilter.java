@@ -1,6 +1,7 @@
 package com.rain.reggie.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.rain.reggie.common.BaseContext;
 import com.rain.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -41,6 +42,8 @@ public class LoginFilter implements Filter {
         }
         if (null != request.getSession().getAttribute("employee")){
             log.info("已登录");
+            Long user_id = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setId(user_id);
             filterChain.doFilter(request, response);
             return;
         }

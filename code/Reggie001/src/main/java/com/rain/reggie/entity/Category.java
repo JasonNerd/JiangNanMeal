@@ -3,32 +3,22 @@ package com.rain.reggie.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * 员工实体
- */
 @Data
-public class Employee implements Serializable {
+public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private Long id;
 
-    private String username;
-
+    //类型 1 菜品分类 2 套餐分类
+    private Integer type;
+    //分类名称
     private String name;
-
-    private String password;
-
-    private String phone;
-
-    private String sex;
-
-    private String idNumber;//身份证号码
-
-    private Integer status;
+    //顺序
+    private Integer sort;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -41,5 +31,4 @@ public class Employee implements Serializable {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
-
 }

@@ -2,6 +2,7 @@ package com.rain.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rain.reggie.common.BaseContext;
 import com.rain.reggie.common.R;
 import com.rain.reggie.entity.Employee;
 import com.rain.reggie.service.EmployeeService;
@@ -42,7 +43,7 @@ public class EmployeeController {
         if (result.getStatus() == 0) {
             return R.error("账号已停用");
         }
-
+        // 存储用户 ID, 记住登录状态(存储在会话中)
         request.getSession().setAttribute("employee", result.getId());
         return R.success(result);
     }
@@ -61,13 +62,8 @@ public class EmployeeController {
      * 新增员工
      */
     @PostMapping("")
-    public R<String> insert(HttpServletRequest request, @RequestBody Employee employee){
+    public R<String> insert(@RequestBody Employee employee){
         log.info("新增员工信息: {}", employee.toString());
-        Long user_id = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateUser(user_id);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setCreateUser(user_id);
-        employee.setUpdateTime(LocalDateTime.now());
         String pwd = DigestUtils.md5DigestAsHex("123456".getBytes());
         employee.setPassword(pwd);
         employeeService.save(employee);
@@ -100,11 +96,9 @@ public class EmployeeController {
     }
 
     @PutMapping("")
-    public R<String> update(HttpServletRequest request, @RequestBody Employee employee){
+    public R<String> update(@RequestBody Employee employee){
         log.info("更新员工信息: {}", employee.toString());
-        Long currentUser = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateUser(currentUser);
-        employee.setUpdateTime(LocalDateTime.now());
+        log.info("线程ID: {}", Thread.currentThread());
         employeeService.updateById(employee);
         return R.success("更新成功");
     }

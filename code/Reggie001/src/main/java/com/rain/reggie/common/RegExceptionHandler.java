@@ -23,4 +23,11 @@ public class RegExceptionHandler {
         }
         return R.error("操作失败");
     }
+
+    @ExceptionHandler(BusinessException.class)
+    public R<String> exceptionHandler(BusinessException e){
+        String message = e.getMessage();
+        log.error("Exception occurred: {}", message);
+        return R.error(message);
+    }
 }
