@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("category")
@@ -46,5 +48,14 @@ public class CategoryController {
         log.info("category to be del: {}", ids);
         service.removeWithDish(ids);
         return R.success("删除成功");
+    }
+
+    @GetMapping("list")
+    public R<List<Category>> getAllCat(Integer type){
+        log.info("查询键值: {}", type);
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getType, type);
+        List<Category> res = service.list(wrapper);
+        return R.success(res);
     }
 }
