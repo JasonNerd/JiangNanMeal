@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -69,4 +70,31 @@ public class DishController {
         service.updateWithFlavor(dishDto);
         return R.success("更新成功");
     }
+
+    @GetMapping("list")
+    public R<List<Dish>> list(Dish dish){
+        log.info("查询信息: {}", dish);
+        Long categoryId = dish.getCategoryId();
+        LambdaQueryWrapper<Dish> dishWrapper = new LambdaQueryWrapper<>();
+        if (categoryId == null){
+            String queryName = dish.getName();
+            log.info("使用名称 {} 进行查询 ...", queryName);
+            dishWrapper.like(queryName!=null, Dish::getName, queryName);
+        }else {
+            log.info("使用分类 {} 进行查询 ...", categoryId);
+            dishWrapper.eq(Dish::getCategoryId, categoryId);
+        }
+        dishWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        List<Dish> dishes = service.list(dishWrapper);
+        return R.success(dishes);
+    }
+
+    @PostMapping("status/{dishStatus}")
+    public R<String> updateStatusBatch(@PathVariable Integer dishStatus, String ids){
+        List<Long> dishIds = Arrays.stream(ids.split(",")).map(Long::parseLong).toList();
+        service.updateStatusBatch(dishStatus, dishIds);
+        return R.success("状态更新成功");
+    }
+
+
 }

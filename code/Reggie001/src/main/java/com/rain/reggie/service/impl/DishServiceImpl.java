@@ -65,4 +65,14 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         ).collect(Collectors.toList());
         flavorService.saveBatch(flavors);
     }
+
+    @Override
+    public void updateStatusBatch(Integer dishStatus, List<Long> dishIds) {
+        List<Dish> dishes = this.listByIds(dishIds);
+        dishes = dishes.stream().map((item)->{
+            item.setStatus(dishStatus);
+            return item;
+        }).toList();
+        this.updateBatchById(dishes);
+    }
 }
