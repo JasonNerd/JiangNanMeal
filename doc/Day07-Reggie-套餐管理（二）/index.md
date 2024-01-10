@@ -73,7 +73,7 @@ public SetmealDto getSetmealWithDish(Long setMealId) {
     return dto;
 }
 ```
-#### 第一步, 将请求数据进行保存(更新).
+#### 第2步, 将请求数据进行保存(更新).
 同样更新操作存在于两个表, 所以需要事务特性
 请求路径:
 http://localhost:8080/setmeal

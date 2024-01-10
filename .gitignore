@@ -5,6 +5,8 @@ target/
 .vscode/
 bin/
 out/
+refer/
+log/
  
 # ignore these files
 .classpath
@@ -33,7 +35,7 @@ out/
 *.jar
 *.rar
 *.tar
-*.zip
+#*.zip
 *.via
 *.tmp
 *.err
