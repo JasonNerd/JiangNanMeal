@@ -32,6 +32,7 @@ public class LoginFilter implements Filter {
         String[] ok_list = {
                 "/employee/login",
                 "/employee/logout",
+                "/user/login",
                 "/backend/**",
                 "/front/**"
         };
@@ -41,8 +42,15 @@ public class LoginFilter implements Filter {
             return;
         }
         if (null != request.getSession().getAttribute("employee")){
-            log.info("已登录");
+            log.info("管理员已登录");
             Long user_id = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setId(user_id);
+            filterChain.doFilter(request, response);
+            return;
+        }
+        if (null != request.getSession().getAttribute("user")){
+            log.info("用户已登录");
+            Long user_id = (Long) request.getSession().getAttribute("user");
             BaseContext.setId(user_id);
             filterChain.doFilter(request, response);
             return;
