@@ -1,9 +1,8 @@
 package com.rain.reggie;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
-@SpringBootTest
+@Test
 class Reggie002ApplicationTests {
 
     @Test
