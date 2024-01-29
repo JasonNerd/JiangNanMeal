@@ -54,7 +54,8 @@ public class CategoryController {
     public R<List<Category>> getAllCat(Integer type){
         log.info("查询键值: {}", type);
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Category::getType, type);
+        wrapper.eq(type!=null, Category::getType, type);
+        wrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
         List<Category> res = service.list(wrapper);
         return R.success(res);
     }

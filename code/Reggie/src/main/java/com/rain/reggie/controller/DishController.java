@@ -6,8 +6,10 @@ import com.rain.reggie.common.R;
 import com.rain.reggie.dto.DishDto;
 import com.rain.reggie.entity.Category;
 import com.rain.reggie.entity.Dish;
+import com.rain.reggie.entity.DishFlavor;
 import com.rain.reggie.service.CategoryService;
 import com.rain.reggie.service.DishService;
+import com.rain.reggie.service.FlavorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("dish")
@@ -25,6 +28,8 @@ public class DishController {
     private DishService service;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private FlavorService flavorService;
 
     @GetMapping("page")
     public R<Page> page(int page, int pageSize, String name){
@@ -72,7 +77,7 @@ public class DishController {
     }
 
     @GetMapping("list")
-    public R<List<Dish>> list(Dish dish){
+    public R<List<DishDto>> list(Dish dish){
         log.info("查询信息: {}", dish);
         Long categoryId = dish.getCategoryId();
         LambdaQueryWrapper<Dish> dishWrapper = new LambdaQueryWrapper<>();
@@ -84,9 +89,22 @@ public class DishController {
             log.info("使用分类 {} 进行查询 ...", categoryId);
             dishWrapper.eq(Dish::getCategoryId, categoryId);
         }
+        dishWrapper.eq(Dish::getStatus, 1);
         dishWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> dishes = service.list(dishWrapper);
-        return R.success(dishes);
+
+        // 将口味数据也封装进去
+        List<DishDto> dishDtoList = new ArrayList<>();
+        for (Dish item: dishes){
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item, dishDto);
+            LambdaQueryWrapper<DishFlavor> dishFlavorWrapper = new LambdaQueryWrapper<>();
+            dishFlavorWrapper.eq(DishFlavor::getDishId, item.getId());
+            dishDto.setFlavors(flavorService.list(dishFlavorWrapper));
+            dishDtoList.add(dishDto);
+            log.info("----{}-----", dishDto);
+        }
+        return R.success(dishDtoList);
     }
 
     @PostMapping("status/{dishStatus}")

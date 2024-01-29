@@ -77,4 +77,13 @@ public class SetmealController {
         mealService.updateStatusBatch(st, setmealIdList);
         return R.success("状态修改成功");
     }
+
+    @GetMapping("list")
+    public R<List<Setmeal>> list(Setmeal setmeal){
+        log.info("依据套餐分类查询套餐: categoryId={}", setmeal.getCategoryId());
+        LambdaQueryWrapper<Setmeal> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Setmeal::getCategoryId, setmeal.getCategoryId());
+        wrapper.eq(Setmeal::getStatus, setmeal.getStatus());
+        return R.success(mealService.list(wrapper));
+    }
 }
