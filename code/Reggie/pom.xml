@@ -7,11 +7,13 @@
         <relativePath/>
         <!--  lookup parent from repository  -->
     </parent>
+
     <groupId>com.rain</groupId>
     <artifactId>reggie</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Reggie002</name>
-    <description>Reggie001</description>
+    <name>Reggie</name>
+    <description>Reggie</description>
+
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -42,6 +44,14 @@
             <version>2.0.32</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
@@ -52,8 +62,8 @@
             <version>1.2.16</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

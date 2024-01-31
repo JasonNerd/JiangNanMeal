@@ -11,6 +11,8 @@ import com.rain.reggie.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class SetmealController {
     private CategoryService categoryService;
 
     @PostMapping
+    @CacheEvict(value = "setmeal")
     public R<String> insert(@RequestBody SetmealDto setMealDto){
         log.info("待添加的套餐: {}", setMealDto);
         mealService.addWithDish(setMealDto);
@@ -65,6 +68,7 @@ public class SetmealController {
     }
 
     @PutMapping
+    @CacheEvict(value = "setmeal")
     public R<String> update(@RequestBody SetmealDto dto){
         log.info("修改套餐信息: {}", dto);
         mealService.updateWithMealDishes(dto);
@@ -72,6 +76,7 @@ public class SetmealController {
     }
 
     @PostMapping("/status/{st}")
+    @CacheEvict(value = "setmeal")
     public R<String> updateStatusBatch(@PathVariable Integer st, String ids){
         List<Long> setmealIdList = Arrays.stream(ids.split(",")).map(Long::parseLong).toList();
         mealService.updateStatusBatch(st, setmealIdList);
@@ -79,6 +84,7 @@ public class SetmealController {
     }
 
     @GetMapping("list")
+    @Cacheable(value = "setmeal", key = "#setmeal.categoryId")
     public R<List<Setmeal>> list(Setmeal setmeal){
         log.info("依据套餐分类查询套餐: categoryId={}", setmeal.getCategoryId());
         LambdaQueryWrapper<Setmeal> wrapper = new LambdaQueryWrapper<>();
