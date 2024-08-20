@@ -1,7 +1,7 @@
 # RuiJiTakeAwaySys
 江南味订餐管理项目
 
-黑马程序员Java项目实战《江南味订餐管理》
+《江南味订餐管理》
 https://www.bilibili.com/video/BV13a411q753
 
 ## 前置知识
@@ -18,7 +18,8 @@ Maven
 . 提高代码调试能力  
 
 ## 项目概览
-![1702905694966](https://github.com/JasonNerd/RuiJiTakeAwaySys/assets/71767491/59d4f916-6cee-42bd-93ba-2c362d6bce66)
+![image](https://github.com/user-attachments/assets/2b7160f7-2125-4ec9-ad2e-a53d719b9334)
+
 ### 软件开发整体介绍
 ![image](https://github.com/JasonNerd/RuiJiTakeAwaySys/assets/71767491/32a9dc56-a074-4da7-b293-4e7d8a65b895)
 ![image](https://github.com/JasonNerd/RuiJiTakeAwaySys/assets/71767491/aa653a52-37f9-4459-84d4-03d1397a84c2)
